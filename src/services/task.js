@@ -1,5 +1,5 @@
 import http from "./http";
 
 export function fetchTasks() {
-  return http.get("/tasks/all");
+  return http.get("/tasks");
 }

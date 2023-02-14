@@ -33,7 +33,7 @@ const NavBar = ({ onLogout }) => {
                   variant="body1"
                   sx={{ marginRight: 2 }}
                 >
-                  Welcome, {currentUser.username} 🤓
+                  Welcome, {currentUser.name} 🤓
                 </Typography>
                 <Button color="inherit" onClick={onLogout}>
                   Logout
