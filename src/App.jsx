@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import { useState } from "react";
 import { Container, CssBaseline } from "@mui/material";
 import TaskPage from "./pages/TaskPage";
+import AddTaskPage from "./pages/AddTaskPage";
 
 function App() {
   const currentUser = authService.getCurrentUser();
@@ -43,6 +44,16 @@ function App() {
             element={
               accessToken ? (
                 <TaskPage currentUser={currentUser} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/tasks/new"
+            element={
+              accessToken ? (
+                <AddTaskPage currentUserId={currentUser.sub} />
               ) : (
                 <Navigate to="/login" />
               )
