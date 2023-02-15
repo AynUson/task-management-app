@@ -6,9 +6,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import NoteIcon from "@mui/icons-material/Note";
-import { getCurrentUser } from "../services/auth";
-const NavBar = ({ onLogout }) => {
-  const currentUser = getCurrentUser();
+import * as authService from "../services/auth";
+const NavBar = ({ onLogout, currentUser }) => {
   const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>

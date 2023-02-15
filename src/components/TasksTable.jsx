@@ -12,44 +12,71 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import CommentIcon from "@mui/icons-material/Comment";
+
 const TasksTable = ({ tasks }) => {
+  const [checked, setChecked] = React.useState([1]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Task by</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tasks.map((task) => (
-            <TableRow key={task.id}>
-              <TableCell>{task.title}</TableCell>
-              <TableCell>{task.completed ? "Done" : "Not Done"}</TableCell>
-              <TableCell>{task.userId}</TableCell>
-              <TableCell>
-                <Link to={`/employees/${task.id}`}>
-                  <IconButton>
-                    <ArrowForwardIcon />
-                  </IconButton>
-                </Link>
-                <Link to={`/employees/${task.id}/edit`}>
-                  <IconButton>
+    <>
+      <List>
+        {tasks.map((value) => {
+          const labelId = `checkbox-list-label-${value.id}`;
+
+          return (
+            <ListItem
+              key={value.id}
+              secondaryAction={
+                <div>
+                  <IconButton edge="end" aria-label="comments">
                     <EditIcon />
                   </IconButton>
-                </Link>
-                <IconButton>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                  <IconButton edge="end" aria-label="comments">
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              }
+              disablePadding
+            >
+              <ListItemButton
+                role={undefined}
+                onClick={handleToggle(value.completed)}
+                dense
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={value.completed}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={`${value.title}`} />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </>
   );
 };
 

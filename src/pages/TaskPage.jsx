@@ -5,9 +5,10 @@ import React, { useEffect, useState } from "react";
 import * as taskService from "../services/task";
 import TasksTable from "../components/TasksTable";
 
-const TaskPage = () => {
+const TaskPage = ({ currentUser }) => {
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
+    // taskService.fetchTasksByUserId(currentUser.sub).then((response) => {
     taskService.fetchTasks().then((response) => {
       setTasks(response.data);
       console.log(response.data);

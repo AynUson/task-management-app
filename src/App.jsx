@@ -10,6 +10,7 @@ import { Container, CssBaseline } from "@mui/material";
 import TaskPage from "./pages/TaskPage";
 
 function App() {
+  const currentUser = authService.getCurrentUser();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(authService.getAccessToken);
   const handleLogin = async (username, password) => {
@@ -33,13 +34,19 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <NavBar onLogout={handleLogout} />
+      <NavBar currentUser={currentUser} onLogout={handleLogout} />
       <Container sx={{ marginTop: 3 }}>
         <Routes>
           <Route path="/" element={<Navigate to="/tasks" />}></Route>
           <Route
             path="/tasks"
-            element={accessToken ? <TaskPage /> : <Navigate to="/login" />}
+            element={
+              accessToken ? (
+                <TaskPage currentUser={currentUser} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/register"
