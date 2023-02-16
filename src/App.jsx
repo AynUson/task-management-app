@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Container, CssBaseline } from "@mui/material";
 import TaskPage from "./pages/TaskPage";
 import AddTaskPage from "./pages/AddTaskPage";
+import EditTaskPage from "./pages/EditTaskPage";
 
 function App() {
   const currentUser = authService.getCurrentUser();
@@ -17,9 +18,9 @@ function App() {
   const handleLogin = async (username, password) => {
     try {
       const response = await authService.login(username, password);
-      console.log(response.data.accessToken);
       localStorage.setItem("accessToken", response.data.accessToken);
       setAccessToken(response.data.accessToken);
+      console.log(response.data.accessToken);
       navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -54,6 +55,16 @@ function App() {
             element={
               accessToken ? (
                 <AddTaskPage currentUserId={currentUser.sub} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/tasks/:id/edit"
+            element={
+              accessToken ? (
+                <EditTaskPage currentUserId={currentUser.sub} />
               ) : (
                 <Navigate to="/login" />
               )

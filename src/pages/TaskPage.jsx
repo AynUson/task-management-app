@@ -11,36 +11,43 @@ const TaskPage = ({ currentUser }) => {
     // taskService.fetchTasksByUserId(currentUser.sub).then((response) => {
     taskService.fetchTasks().then((response) => {
       setTasks(response.data);
-      console.log(response.data);
     });
   }, []);
-  const handleMarkAsDone = (id, form) => {
-    console.log(form);
-    // taskService
-    //   .updateTask(id, form)
-    //   .then(() => {
-    //     navigate("/");
-    //   })
-    //   .catch((error) => {
-    //     if (error.response && error.response.status === 400) {
-    //       alert(error.response.data.message[0]);
-    //     }
-    //   });
+  const handleDeleteTask = async (id) => {
+    const tasksClone = [...tasks];
+    try {
+      setTasks(tasks.filter((task) => task.id !== id));
+
+      await taskService.deleteTask(id);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        alert("Data might have already been deleted");
+      }
+      setTasks(tasksClone);
+    }
   };
   return (
     <Grid container spacing={2} justifyContent="flex-end" textAlign="right">
-      <Grid item xs={4}>
-        <Button
-          variant="text"
-          startIcon={<AddIcon />}
-          LinkComponent={Link}
-          to="/tasks/new"
-        >
-          Add Task
-        </Button>
-      </Grid>
+      {currentUser.isAdmin === false ? (
+        <Grid item xs={4}>
+          <Button
+            variant="text"
+            startIcon={<AddIcon />}
+            LinkComponent={Link}
+            to="/tasks/new"
+          >
+            Add Task
+          </Button>
+        </Grid>
+      ) : (
+        <div></div>
+      )}
       <Grid item xs={12}>
-        <TasksTable onMarkDone={handleMarkAsDone} tasks={tasks} />
+        <TasksTable
+          currentUser={currentUser}
+          onDeleteTask={handleDeleteTask}
+          tasks={tasks}
+        />
         {/* {tasks.map((task) => (
           <h1>{task.title}</h1>
         ))} */}

@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const TasksForm = ({ onSubmit, initialValue, currentUserId }) => {
   const [form, setForm] = useState(
@@ -49,8 +49,6 @@ const TasksForm = ({ onSubmit, initialValue, currentUserId }) => {
       delete errors[input.name];
       setErrors(errors);
     }
-    console.log(error);
-    console.log(form);
   };
 
   const isFormInvalid = () => {

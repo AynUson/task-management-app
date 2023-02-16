@@ -41,7 +41,6 @@ const RegisterPage = () => {
       navigate("/login");
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        console.log(error);
         alert(error.response.data.message);
       }
     }

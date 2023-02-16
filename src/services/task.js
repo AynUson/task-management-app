@@ -3,9 +3,10 @@ import http from "./http";
 export function fetchTasks() {
   return http.get("/tasks");
 }
-
+export function fetchAllTasks() {
+  return http.get("/tasks/all");
+}
 export function fetchTasksByUserId(userId) {
-  console.log(userId);
   return http.get(`/tasks/${userId}`);
 }
 
@@ -36,4 +37,8 @@ export function updateTask(id, task) {
     }
   });
   return http.put(`/tasks/${id}`, taskClone);
+}
+
+export function deleteTask(id) {
+  return http.delete(`/tasks/${id}`);
 }

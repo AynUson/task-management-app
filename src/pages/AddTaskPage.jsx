@@ -9,7 +9,6 @@ const AddTaskPage = ({ currentUserId }) => {
     taskService
       .addTask(task)
       .then((response) => {
-        console.log(response);
         navigate("/");
       })
       .catch((error) => {
